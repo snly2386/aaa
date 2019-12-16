@@ -6,3 +6,16 @@ before_install:
   - docker build -t snly2386/testapp:latest -f Dockerfile.dev .
 script:
   - docker run -e CI=true snly2386/testapp npm run test -- --coverage
+deploy:
+  provider: elasticbeanstalk
+  edge: true
+  region: "us-east-1"
+  app: "docker-react"
+  env: "DockerReact-env" 
+  bucket_name: "elasticbeanstalk-us-east-1-311342128241"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCCESS_ID"
+  secret_access_key:
+    secure: "$AWS_SECRET"
